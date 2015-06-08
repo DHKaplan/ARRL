@@ -1,0 +1,60 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        "configurable"
+    ],
+    "companyName": "WA1OUI",
+    "longName": "ARRL",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/menu_icon_ARRL_BW.png",
+                "name": "IMAGE_MENU_ICON",
+                "type": "png"
+            },
+            {
+                "file": "images/ARRL_Logo.png",
+                "name": "IMAGE_ARRL_LOGO",
+                "type": "png"
+            },
+            {
+                "characterRegex": "[:0-9]",
+                "file": "fonts/Roboto-Bold.ttf",
+                "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_29",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_25",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "FONT_ROBOTO_CONDENSED_21",
+                "type": "font"
+            },
+            {
+                "file": "fonts/HelveNeuLig.ttf",
+                "name": "FONT_HELV_NEW_LIGHT_20",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "ARRL",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "6951421a-9386-4bae-8aa0-4695b597d4fe",
+    "versionLabel": "4.00",
+    "watchapp": {
+        "watchface": true
+    }
+}
