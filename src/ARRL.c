@@ -263,20 +263,20 @@ void handle_appfocus(bool in_focus){
 }
 
 void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
+  char time_format[] = "%I:%M";
+
   strftime(seconds_text, sizeof(seconds_text), "%S", tick_time);
-  SecsInt = atoi(seconds_text);
-
-
-if(SecsInt == 0) {
-  char *time_format;
 
   if (clock_is_24h_style()) {
-    time_format = "%R";
-  } else {
-    time_format = "%I:%M";
-  }
-// Set Time of Day
+       strcpy(time_format,"%R");
+     } else {
+       strcpy(time_format,"%I:%M");
+     }
+
   strftime(time_text, sizeof(time_text), time_format, tick_time);
+
+  if((strcmp(seconds_text,"00") == 0) || (FirstTime == 0)) {
+  FirstTime = 1;
 
   // Kludge to handle lack of non-padded hour format string
   // for twelve hour clock.
@@ -290,12 +290,10 @@ if(SecsInt == 0) {
   strftime(year_text,    sizeof(year_text),    "%Y",    tick_time);
 
 //Initialize
-if (FirstTime == 0) {
-    text_layer_set_text(text_dayname_layer, dayname_text);
-    text_layer_set_text(text_mmdd_layer, mmdd_text);
-    text_layer_set_text(text_year_layer, year_text);
-    FirstTime = 1;
-    }
+  text_layer_set_text(text_dayname_layer, dayname_text);
+  text_layer_set_text(text_mmdd_layer, mmdd_text);
+  text_layer_set_text(text_year_layer, year_text);
+
 
 if (units_changed & DAY_UNIT) {
    // Only update the day name & date when it's changed.
@@ -310,6 +308,9 @@ if (units_changed & DAY_UNIT) {
 
 void handle_deinit(void) {
   tick_timer_service_unsubscribe();
+  
+  persist_write_string(DATE_STYLE, date_type);
+
   battery_state_service_unsubscribe();
   bluetooth_connection_service_unsubscribe();
   app_focus_service_unsubscribe();
@@ -335,7 +336,9 @@ void handle_deinit(void) {
 
 //Receive Input from Config html page:
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "In Inbox received callback");
+  //APP_LOG(APP_LOG_LEVEL_INFO, "In Inbox received callback");
+
+  FirstTime = 0;
 
   // Read first item
   Tuple *t = dict_read_first(iterator);
@@ -345,7 +348,6 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     // Which key was received?
     switch(t->key) {
     case 0:
-
       strcpy(date_type, t->value->cstring);
 
       if (strcmp(date_type, "us") == 0) {
@@ -353,6 +355,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       } else {
          strcpy(date_format, "%d %b");
       }
+
       text_layer_set_text(text_mmdd_layer, mmdd_text);
       break;
 
@@ -363,7 +366,8 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
 
     // Look for next item
     t = dict_read_next(iterator);
-  }}
+    }
+  }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
   APP_LOG(APP_LOG_LEVEL_ERROR, "Inbox Message dropped!");
@@ -439,11 +443,15 @@ void handle_init(void) {
 
   //Persistent Value Date Format:
   if (persist_exists(DATE_STYLE)) {
-     persist_read_string(DATE_STYLE, date_type, sizeof(date_type));
-     APP_LOG(APP_LOG_LEVEL_WARNING, "persistent exists");
-     APP_LOG(APP_LOG_LEVEL_WARNING, date_type);
+       persist_read_string(DATE_STYLE, date_type, sizeof(date_type));
   }  else {
-     strcpy(date_type, "us");
+       strcpy(date_type, "us");
+  }
+
+  if (strcmp(date_type, "us") == 0) {
+      strcpy(date_format, "%b %d");
+  } else {
+      strcpy(date_format, "%d %b");
   }
 
   // Time of Day is here
