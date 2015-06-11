@@ -30,14 +30,13 @@ static int BTConnected = 1;
 static int BTVibesDone = 0;
 
 static int FirstTime = 0;
-static int SecsInt = 0;
 
 static char date_type[]="us  ";
 static char dayname_text[] = "XXX";
 static char time_text[] = "00:00";
 static char mmdd_text[] = "XXXX00";
 static char year_text[] = "0000";
-static char seconds_text[00];
+static char seconds_text[] = "00";
 
 static char date_format[]="%b %e, %Y";
 
