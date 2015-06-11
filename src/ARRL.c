@@ -1,7 +1,6 @@
 #include "pebble.h"
 
-#define PERSONALIZED_TEXT_INPUT 0
-#define DATE_STYLE 1
+#define DATE_STYLE 0
 
 Window *window;
 
