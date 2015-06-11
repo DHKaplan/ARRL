@@ -9,8 +9,8 @@ Pebble.addEventListener('webviewclosed',
   { 
   console.log("in webviewclosed");
   var dict = JSON.parse(decodeURIComponent(e.response));
-    
-  //Send a string to Pebble
+
+    //Send a string to Pebble
   Pebble.sendAppMessage(dict, 
         function(e) 
             { 
