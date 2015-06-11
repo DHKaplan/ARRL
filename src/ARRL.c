@@ -277,7 +277,7 @@ void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
 
   if((strcmp(seconds_text,"00") == 0) || (FirstTime == 0)) {
   FirstTime = 1;
-
+  }
   // Kludge to handle lack of non-padded hour format string
   // for twelve hour clock.
   if (!clock_is_24h_style() && (time_text[0] == '0')) {
@@ -304,7 +304,7 @@ if (units_changed & DAY_UNIT) {
   // Always update time of day
   text_layer_set_text(text_time_layer, time_text);
  }
-}
+
 
 void handle_deinit(void) {
   tick_timer_service_unsubscribe();
