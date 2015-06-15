@@ -1,6 +1,6 @@
 Pebble.addEventListener('showConfiguration', function(e) {
   // Show config page
-  Pebble.openURL('http://www.wticalumni.com/DHK/ARRL4.00.htm');
+  Pebble.openURL('http://www.wticalumni.com/DHK/ARRL4.10.htm');
 });
 
 
