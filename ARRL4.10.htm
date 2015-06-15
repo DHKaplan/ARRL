@@ -41,8 +41,8 @@
 
 <!-- Setup for Saved Date value: -->
 <script>
-if(localStorage.getItem("savedDateType")) {
-  var DateValue = localStorage.getItem('savedDateType');
+if(localStorage.getItem("savedDateType_ARRL")) {
+  var DateValue = localStorage.getItem('savedDateType_ARRL');
   if (DateValue == 0) {
     document.getElementById("date_style_0").checked = 1;
   } else { //Must be 1
@@ -83,8 +83,8 @@ if(localStorage.getItem("savedDateType")) {
 
 <!-- Setup for Saved BT value: -->
 <script>
-if(localStorage.getItem("savedBTVibe")) {
-  var BTVibeValue = localStorage.getItem('savedBTVibe');
+if(localStorage.getItem("savedBTVibe_ARRL")) {
+  var BTVibeValue = localStorage.getItem('savedBTVibe_ARRL');
   if (BTVibeValue == 0) {
     document.getElementById("bt_vibe_0").checked = 1;
   } else { //Must be 1
@@ -155,14 +155,14 @@ $().ready(function() {
     } else {
       var savedDate = 1;
     }
-    localStorage.setItem('savedDateType', savedDate);
+    localStorage.setItem('savedDateType_ARRL', savedDate);
 
     if (document.getElementById("bt_vibe_0").checked == 1) {
       var savedBTVibe = 0;
     } else {
       var savedBTVibe = 1;
     }
-    localStorage.setItem('savedBTVibe', savedBTVibe);
+    localStorage.setItem('savedBTVibe_ARRL', savedBTVibe);
 
     var return_to = getQueryParam('return_to', 'pebblejs://close#');
     document.location = return_to + encodeURIComponent(JSON.stringify(saveOptions()));
