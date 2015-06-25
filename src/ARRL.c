@@ -141,8 +141,17 @@ void BTLine_update_callback(Layer *BTLayer, GContext* BT1ctx) {
        GPoint BTLinePointStart;
        GPoint BTLinePointEnd;
 
-       graphics_context_set_stroke_color(BT1ctx, TextColorHold);
-
+        //Default Colors
+        #ifdef PBL_COLOR
+           graphics_context_set_stroke_color(BT1ctx, TextColorHold);
+           graphics_context_set_fill_color(BT1ctx, BGColorHold);
+           graphics_fill_rect(BT1ctx, layer_get_bounds(BTLayer), 0, GCornerNone);
+        #else
+            graphics_context_set_stroke_color(BT1ctx, GColorWhite);
+            graphics_context_set_fill_color(BT1ctx, GColorBlack);
+            graphics_fill_rect(BT1ctx, layer_get_bounds(BTLayer), 0, GCornerNone);
+        #endif
+          
         if (BTConnected == 0) {
 
         #ifdef PBL_COLOR
@@ -400,7 +409,7 @@ void handle_init(void) {
 
   window = window_create();
   window_stack_push(window, true /* Animated */);
-  window_set_background_color(window, GColorBlack);
+  window_set_background_color(window, BGCOLOR);
 
   Layer *window_layer = window_get_root_layer(window);
 
