@@ -9,20 +9,20 @@
     "resources": {
         "media": [
             {
-                "file": "images/menu_icon_ARRL_BW.png",
-                "menuIcon": true,
-                "name": "IMAGE_MENU_ICON",
-                "type": "png"
-            },
-            {
-                "file": "images/ARRL_Logo.png",
-                "name": "IMAGE_ARRL_LOGO",
-                "type": "png"
+                "file": "fonts/HelveNeuLig.ttf",
+                "name": "FONT_HELV_NEW_LIGHT_20",
+                "type": "font"
             },
             {
                 "characterRegex": "[:0-9]",
                 "file": "fonts/Roboto-Bold.ttf",
                 "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[:0-9]",
+                "file": "fonts/Roboto-Bold.ttf",
+                "name": "FONT_ROBOTO_BOLD_SUBSET_40",
                 "type": "font"
             },
             {
@@ -41,9 +41,20 @@
                 "type": "font"
             },
             {
-                "file": "fonts/HelveNeuLig.ttf",
-                "name": "FONT_HELV_NEW_LIGHT_20",
-                "type": "font"
+                "file": "images/ARRL_Logo.png",
+                "name": "IMAGE_ARRL_LOGO",
+                "type": "png"
+            },
+            {
+                "file": "images/menu_icon_ARRL_BW.png",
+                "menuIcon": true,
+                "name": "IMAGE_MENU_ICON",
+                "type": "png"
+            },
+            {
+                "file": "images/ARRL_Logo_Round.png",
+                "name": "IMAGE_ARRL_LOGO_ROUND",
+                "type": "png"
             }
         ]
     },
@@ -51,10 +62,11 @@
     "shortName": "ARRL",
     "targetPlatforms": [
         "aplite",
-        "basalt"
+        "basalt",
+        "chalk"
     ],
     "uuid": "6951421a-9386-4bae-8aa0-4695b597d4fe",
-    "versionLabel": "4.14",
+    "versionLabel": "5.00",
     "watchapp": {
         "watchface": true
     }

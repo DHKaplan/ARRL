@@ -17,6 +17,7 @@ Layer       *BTLayer;
 GFont        fontHelvNewLight20;
 GFont		     fontRobotoCondensed25;
 GFont        fontSystemGothicBold28;
+GFont        fontRobotoBoldSubset40;
 GFont        fontRobotoBoldSubset49;
 
 static GBitmap     *image;
@@ -334,6 +335,7 @@ void handle_deinit(void) {
 
   fonts_unload_custom_font(fontHelvNewLight20);
   fonts_unload_custom_font(fontRobotoCondensed25);
+  fonts_unload_custom_font(fontRobotoBoldSubset40);
   fonts_unload_custom_font(fontRobotoBoldSubset49);
 
   window_destroy(window);
@@ -418,6 +420,7 @@ void handle_init(void) {
   fontHelvNewLight20     = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HELV_NEW_LIGHT_20));
   fontRobotoCondensed25  = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_25));
   fontSystemGothicBold28 = fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD);
+  fontRobotoBoldSubset40 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_40));
   fontRobotoBoldSubset49 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49));
 
   // Register callbacks
@@ -430,7 +433,12 @@ void handle_init(void) {
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
   // Dayname
-  text_dayname_layer = text_layer_create(GRect(59, 25, 91, 40));
+  #ifdef PBL_PLATFORM_CHALK
+      text_dayname_layer = text_layer_create(GRect(65, 25, 91, 40));
+  #else
+      text_dayname_layer = text_layer_create(GRect(59, 25, 91, 40));
+  #endif 
+    
   text_layer_set_text_color(text_dayname_layer,TEXTCOLOR);
   text_layer_set_background_color(text_dayname_layer, BGCOLOR);
   text_layer_set_text_alignment(text_dayname_layer, GTextAlignmentCenter);
@@ -438,7 +446,12 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(text_dayname_layer));
 
   // mmdd
-  text_mmdd_layer = text_layer_create(GRect(59, 55, 91, 40));
+  #ifdef PBL_PLATFORM_CHALK
+      text_mmdd_layer = text_layer_create(GRect(65, 55, 91, 40));
+  #else
+       text_mmdd_layer = text_layer_create(GRect(59, 55, 91, 40));
+  #endif
+    
   text_layer_set_text_color(text_mmdd_layer, TEXTCOLOR);
   text_layer_set_background_color(text_mmdd_layer, BGCOLOR);
   text_layer_set_text_alignment(text_mmdd_layer, GTextAlignmentCenter);
@@ -446,16 +459,27 @@ void handle_init(void) {
   layer_add_child(window_layer, text_layer_get_layer(text_mmdd_layer));
 
   // year
-  text_year_layer = text_layer_create(GRect(59, 86, 91, 40));
+  #ifdef PBL_PLATFORM_CHALK
+      text_year_layer = text_layer_create(GRect(65, 86, 91, 40));
+  #else
+      text_year_layer = text_layer_create(GRect(59, 86, 91, 40));
+  #endif
+ 
+  text_layer_set_text_alignment(text_year_layer, GTextAlignmentCenter);  
   text_layer_set_text_color(text_year_layer, TEXTCOLOR);
-  text_layer_set_background_color(text_year_layer, BGCOLOR);
-  text_layer_set_text_alignment(text_year_layer, GTextAlignmentCenter);
+  text_layer_set_background_color(text_year_layer, BGCOLOR); 
   text_layer_set_font(text_year_layer, fontRobotoCondensed25);
   layer_add_child(window_layer, text_layer_get_layer(text_year_layer));
 
 // ARRL Logo
-  image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
-  image_layer = bitmap_layer_create(GRect(5, 1, 58, 119));
+  #ifdef PBL_PLATFORM_CHALK
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO_ROUND);
+      image_layer = bitmap_layer_create(GRect(20, 17,46, 100));
+  #else //Aplite or Basalt
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
+      image_layer = bitmap_layer_create(GRect(5, 1, 58, 119));
+  #endif
+ 
   bitmap_layer_set_bitmap(image_layer, image);
   bitmap_layer_set_alignment(image_layer, GAlignCenter);
   layer_add_child(window_layer, bitmap_layer_get_layer(image_layer));
@@ -481,15 +505,26 @@ void handle_init(void) {
   } 
   
   // Time of Day is here
-  text_time_layer = text_layer_create(GRect(1, 118, 144, 50));
+  #ifdef PBL_PLATFORM_CHALK
+      text_time_layer = text_layer_create(GRect(1, 118, 180, 50));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset40);
+  #else
+      text_time_layer = text_layer_create(GRect(1, 118, 144, 50));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset49);
+  #endif
+    
   text_layer_set_text_color(text_time_layer, TEXTCOLOR);
   text_layer_set_background_color(text_time_layer, BGCOLOR);
-  text_layer_set_font(text_time_layer, fontRobotoBoldSubset49);
   text_layer_set_text_alignment(text_time_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
   // Line
-  GRect line_frame = GRect(22, 122, 104, 6);
+  #ifdef PBL_PLATFORM_CHALK
+      GRect line_frame = GRect(38, 118, 104, 6);
+  #else
+      GRect line_frame = GRect(22, 122, 104, 6);
+  #endif
+    
   linelayer = layer_create(line_frame);
   layer_set_update_proc(linelayer, line_layer_update_callback);
   layer_add_child(window_layer, linelayer);
@@ -508,7 +543,12 @@ void handle_init(void) {
     bluetooth_connection_service_subscribe(&handle_bluetooth);
 
     //Battery Text
-    text_battery_layer = text_layer_create(GRect(85,2,55,28));
+    #ifdef PBL_PLATFORM_CHALK
+        text_battery_layer = text_layer_create(GRect(80,2,55,28));
+    #else
+        text_battery_layer = text_layer_create(GRect(85,2,55,28));
+    #endif
+      
     text_layer_set_text_color(text_battery_layer, TEXTCOLOR);
     text_layer_set_background_color(text_battery_layer, BGCOLOR);
     text_layer_set_text_alignment(text_battery_layer, GTextAlignmentRight);
