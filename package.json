@@ -20,14 +20,25 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/ARRL_Logo.png",
-                    "name": "IMAGE_ARRL_LOGO",
+                    "file": "images/ARRL_image_icon_Square.png",
+                    "name": "IMAGE_MENU_ICON",
+                    "targetPlatforms": null,
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/menu_icon_ARRL_BW.png",
-                    "menuIcon": true,
-                    "name": "IMAGE_MENU_ICON",
+                    "file": "images/Image_Menu_Icon",
+                    "name": "Image_Menu_Icon",
+                    "targetPlatforms": [
+                        "aplite",
+                        "basalt",
+                        "chalk",
+                        "diorite"
+                    ],
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/ARRL_Logo.png",
+                    "name": "IMAGE_ARRL_LOGO",
                     "type": "bitmap"
                 },
                 {
@@ -81,5 +92,5 @@
             "watchface": true
         }
     },
-    "version": "7.0.0"
+    "version": "7.2.0"
 }
