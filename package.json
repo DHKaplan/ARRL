@@ -21,6 +21,7 @@
             "media": [
                 {
                     "file": "images/ARRL_image_icon_Square.png",
+                    "menuIcon": true,
                     "name": "IMAGE_MENU_ICON",
                     "targetPlatforms": null,
                     "type": "bitmap"
