@@ -20,9 +20,12 @@ TextLayer *text_time_layer;
 
 GFont        fontHelvNewLight20;
 GFont        fontRobotoCondensed25;
+GFont        fontRobotoCondensed35;
 GFont        fontSystemGothicBold28;
 GFont        fontRobotoBoldSubset40;
 GFont        fontRobotoBoldSubset49;
+GFont        fontRobotoBoldSubset60;
+
 
  GBitmap     *image;
  BitmapLayer *image_layer;
@@ -73,13 +76,13 @@ void handle_tick(struct tm *tick_time, TimeUnits units_changed) {
      }
 
   strftime(time_text, sizeof(time_text), time_format, tick_time);
- 
+
   // Kludge to handle lack of non-padded hour format string
   // for twelve hour clock.
   if (!clock_is_24h_style() && (time_text[0] == '0')) {
     memmove(time_text, &time_text[1], sizeof(time_text) - 1);
   }
-  
+
   if((strcmp(seconds_text,"00") == 0) || (FirstTime == 0)) {
      strftime(dayname_text, sizeof(dayname_text), "%a",    tick_time);
      strftime(mmdd_text,    sizeof(mmdd_text), date_format, tick_time);
@@ -98,7 +101,7 @@ if (units_changed & DAY_UNIT) {
 
 
  if((strcmp(seconds_text,"00") == 0) || (FirstTime == 0)) {
-     text_layer_set_text(text_time_layer, time_text); 
+     text_layer_set_text(text_time_layer, time_text);
   }
   FirstTime = 1;
  }
@@ -106,11 +109,11 @@ if (units_changed & DAY_UNIT) {
 
 void handle_deinit(void) {
   tick_timer_service_unsubscribe();
-  
+
   persist_write_string(MESSAGE_KEY_DATE_FORMAT_KEY,       PersistDateFormat);
   persist_write_int(MESSAGE_KEY_BT_VIBRATE_KEY,           PersistBTLoss);
   persist_write_int(MESSAGE_KEY_LOW_BATTERY_KEY,          PersistLow_Batt);
-  
+
   battery_state_service_unsubscribe();
   bluetooth_connection_service_unsubscribe();
   app_focus_service_unsubscribe();
@@ -146,9 +149,12 @@ void handle_init(void) {
 
   fontHelvNewLight20     = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_HELV_NEW_LIGHT_20));
   fontRobotoCondensed25  = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_25));
+  fontRobotoCondensed35  = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_35));
   fontSystemGothicBold28 = fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD);
   fontRobotoBoldSubset40 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_40));
   fontRobotoBoldSubset49 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49));
+  fontRobotoBoldSubset60 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_60));
+
 
   // Register callbacks
   app_message_register_inbox_received(inbox_received_callback);
@@ -160,53 +166,82 @@ void handle_init(void) {
   app_message_open(64, 64);
 
   // Dayname
-  #ifdef PBL_PLATFORM_CHALK
-      text_dayname_layer = text_layer_create(GRect(65, 25, 91, 40));
-  #else
+  #ifdef PBL_PLATFORM_APLITE
       text_dayname_layer = text_layer_create(GRect(59, 25, 91, 40));
-  #endif 
-    
+  #elif PBL_PLATFORM_BASALT
+      text_dayname_layer = text_layer_create(GRect(59, 25, 91, 40));
+  #elif PBL_PLATFORM_CHALK
+    text_dayname_layer = text_layer_create(GRect(65, 25, 91, 40));
+  #elif PBL_PLATFORM_DIORITE
+      text_dayname_layer = text_layer_create(GRect(59, 25, 91, 40));
+  #elif PBL_PLATFORM_EMERY
+      text_dayname_layer = text_layer_create(GRect(48, 30, 165, 40));
+  #endif
+
   text_layer_set_text_color(text_dayname_layer,GColorYellow);
   text_layer_set_background_color(text_dayname_layer, GColorOxfordBlue);
   text_layer_set_text_alignment(text_dayname_layer, GTextAlignmentCenter);
-  text_layer_set_font(text_dayname_layer, fontSystemGothicBold28);
+  text_layer_set_font(text_dayname_layer, fontRobotoCondensed35);
   layer_add_child(window_layer, text_layer_get_layer(text_dayname_layer));
 
   // mmdd
-  #ifdef PBL_PLATFORM_CHALK
-      text_mmdd_layer = text_layer_create(GRect(65, 55, 91, 40));
-  #else
+
+  #ifdef PBL_PLATFORM_APLITE
        text_mmdd_layer = text_layer_create(GRect(59, 55, 91, 40));
+  #elif PBL_PLATFORM_BASALT
+       text_mmdd_layer = text_layer_create(GRect(59, 55, 91, 40));
+  #elif PBL_PLATFORM_CHALK
+      text_mmdd_layer = text_layer_create(GRect(65, 55, 91, 40));
+  #elif PBL_PLATFORM_DIORITE
+       text_mmdd_layer = text_layer_create(GRect(59, 55, 91, 40));
+  #elif PBL_PLATFORM_EMERY
+       text_mmdd_layer = text_layer_create(GRect(48, 64, 165, 40));
   #endif
-    
+
   text_layer_set_text_color(text_mmdd_layer, GColorYellow);
   text_layer_set_background_color(text_mmdd_layer, GColorOxfordBlue);
   text_layer_set_text_alignment(text_mmdd_layer, GTextAlignmentCenter);
-  text_layer_set_font(text_mmdd_layer, fontRobotoCondensed25);
+  text_layer_set_font(text_mmdd_layer, fontRobotoCondensed35);
   layer_add_child(window_layer, text_layer_get_layer(text_mmdd_layer));
 
   // year
-  #ifdef PBL_PLATFORM_CHALK
-      text_year_layer = text_layer_create(GRect(65, 86, 91, 40));
-  #else
+
+  #ifdef PBL_PLATFORM_APLITE
       text_year_layer = text_layer_create(GRect(59, 86, 91, 40));
+  #elif PBL_PLATFORM_BASALT
+      text_year_layer = text_layer_create(GRect(59, 86, 91, 40));
+  #elif PBL_PLATFORM_CHALK
+      text_year_layer = text_layer_create(GRect(65, 86, 91, 40));
+  #elif PBL_PLATFORM_DIORITE
+      text_year_layer = text_layer_create(GRect(59, 86, 91, 40));
+  #elif PBL_PLATFORM_EMERY
+      text_year_layer = text_layer_create(GRect(48, 105, 165, 40));
   #endif
- 
-  text_layer_set_text_alignment(text_year_layer, GTextAlignmentCenter);  
+
+  text_layer_set_text_alignment(text_year_layer, GTextAlignmentCenter);
   text_layer_set_text_color(text_year_layer, GColorYellow);
-  text_layer_set_background_color(text_year_layer, GColorOxfordBlue); 
-  text_layer_set_font(text_year_layer, fontRobotoCondensed25);
+  text_layer_set_background_color(text_year_layer, GColorOxfordBlue);
+  text_layer_set_font(text_year_layer, fontRobotoCondensed35);
   layer_add_child(window_layer, text_layer_get_layer(text_year_layer));
 
 // ARRL Logo
-  #ifdef PBL_PLATFORM_CHALK
-      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO_ROUND);
-      image_layer = bitmap_layer_create(GRect(20, 17,46, 100));
-  #else //Aplite or Basalt
+  #ifdef PBL_PLATFORM_APLITE
       image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
       image_layer = bitmap_layer_create(GRect(5, 1, 58, 119));
+  #elif PBL_PLATFORM_BASALT
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
+      image_layer = bitmap_layer_create(GRect(5, 1, 58, 119));
+  #elif PBL_PLATFORM_CHALK
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO_ROUND);
+      image_layer = bitmap_layer_create(GRect(20, 17,46, 100));
+  #elif PBL_PLATFORM_DIORITE
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
+      image_layer = bitmap_layer_create(GRect(5, 1, 58, 119));
+  #elif PBL_PLATFORM_EMERY
+      image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_ARRL_LOGO);
+      image_layer = bitmap_layer_create(GRect(5, 30, 58, 119));
   #endif
- 
+
   bitmap_layer_set_bitmap(image_layer, image);
   bitmap_layer_set_alignment(image_layer, GAlignCenter);
   layer_add_child(window_layer, bitmap_layer_get_layer(image_layer));
@@ -246,28 +281,43 @@ void handle_init(void) {
 
   }
 
-  
+
   // Time of Day is here
-  #ifdef PBL_PLATFORM_CHALK
-      text_time_layer = text_layer_create(GRect(1, 118, 180, 50));
-      text_layer_set_font(text_time_layer, fontRobotoBoldSubset40);
-  #else
+  #ifdef PBL_PLATFORM_APLITE
       text_time_layer = text_layer_create(GRect(1, 118, 144, 50));
       text_layer_set_font(text_time_layer, fontRobotoBoldSubset49);
+  #elif PBL_PLATFORM_BASALT
+      text_time_layer = text_layer_create(GRect(1, 118, 144, 50));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset49);
+  #elif PBL_PLATFORM_CHALK
+      text_time_layer = text_layer_create(GRect(1, 118, 180, 50));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset40);
+  #elif PBL_PLATFORM_DIORITE
+      text_time_layer = text_layer_create(GRect(1, 118, 144, 50));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset49);
+  #elif PBL_PLATFORM_EMERY
+      text_time_layer = text_layer_create(GRect(1, 158, 180, 70));
+      text_layer_set_font(text_time_layer, fontRobotoBoldSubset60);
   #endif
-    
+
   text_layer_set_text_color(text_time_layer, GColorYellow);
   text_layer_set_background_color(text_time_layer, GColorOxfordBlue);
   text_layer_set_text_alignment(text_time_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
   // Line
-  #ifdef PBL_PLATFORM_CHALK
-      GRect line_frame = GRect(38, 118, 104, 6);
-  #else
+  #ifdef PBL_PLATFORM_APLITE
       GRect line_frame = GRect(22, 122, 104, 6);
+  #elif PBL_PLATFORM_BASALT
+      GRect line_frame = GRect(22, 122, 104, 6);
+  #elif PBL_PLATFORM_CHALK
+      GRect line_frame = GRect(38, 118, 104, 6);
+  #elif PBL_PLATFORM_DIORITE
+      GRect line_frame = GRect(22, 122, 104, 6);
+  #elif PBL_PLATFORM_EMERY
+      GRect line_frame = GRect(40, 158, 104, 6);
   #endif
-    
+
   BatteryLineLayer = layer_create(line_frame);
   layer_set_update_proc(BatteryLineLayer, battery_line_layer_update_callback);
   layer_add_child(window_layer, BatteryLineLayer);
@@ -275,9 +325,20 @@ void handle_init(void) {
   tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
 
 
-    //Bluetooth Logo Setup area
-    GRect BTArea = GRect(60, 5, 20, 20);
-    BTLayer = layer_create(BTArea);
+  //Bluetooth Logo Setup area
+  #ifdef PBL_PLATFORM_APLITE
+     GRect BTArea = GRect(60, 5, 20, 20);
+  #elif PBL_PLATFORM_BASALT
+     GRect BTArea = GRect(60, 5, 20, 20);
+  #elif PBL_PLATFORM_CHALK
+     GRect BTArea = GRect(60, 5, 20, 20);
+  #elif PBL_PLATFORM_DIORITE
+     GRect BTArea = GRect(60, 5, 20, 20);
+  #elif PBL_PLATFORM_EMERY
+     GRect BTArea = GRect(2, 5, 20, 20);
+  #endif
+
+  BTLayer = layer_create(BTArea);
 
     layer_add_child(window_layer, BTLayer);
 
@@ -286,12 +347,19 @@ void handle_init(void) {
     bluetooth_connection_service_subscribe(&handle_bluetooth);
 
     //Battery Text
-    #ifdef PBL_PLATFORM_CHALK
-        text_battery_layer = text_layer_create(GRect(80,2,55,28));
-    #else
+
+   #ifdef PBL_PLATFORM_APLITE
         text_battery_layer = text_layer_create(GRect(85,2,55,28));
-    #endif
-      
+   #elif PBL_PLATFORM_BASALT
+        text_battery_layer = text_layer_create(GRect(85,2,55,28));
+   #elif PBL_PLATFORM_CHALK
+        text_battery_layer = text_layer_create(GRect(80,2,55,28));
+   #elif PBL_PLATFORM_DIORITE
+        text_battery_layer = text_layer_create(GRect(85,2,55,28));
+   #elif PBL_PLATFORM_EMERY
+        text_battery_layer = text_layer_create(GRect(145,2,55,28));
+   #endif
+
     text_layer_set_text_color(text_battery_layer, GColorYellow);
     text_layer_set_background_color(text_battery_layer, GColorOxfordBlue);
     text_layer_set_text_alignment(text_battery_layer, GTextAlignmentRight);
@@ -305,7 +373,7 @@ void handle_init(void) {
 
     handle_battery(battery_state_service_peek());
     handle_bluetooth(bluetooth_connection_service_peek());
-  
+
   // Ensures time is displayed immediately (will break if NULL tick event accessed).
   // (This is why it's a good idea to have a separate routine to do the update itself.)
   time_t now = time(NULL);

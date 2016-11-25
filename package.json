@@ -20,13 +20,6 @@
         "resources": {
             "media": [
                 {
-                    "file": "images/ARRL_image_icon_Square.png",
-                    "menuIcon": true,
-                    "name": "IMAGE_MENU_ICON",
-                    "targetPlatforms": null,
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/Image_Menu_Icon",
                     "name": "Image_Menu_Icon",
                     "targetPlatforms": [
@@ -38,45 +31,64 @@
                     "type": "bitmap"
                 },
                 {
-                    "file": "images/ARRL_Logo.png",
-                    "name": "IMAGE_ARRL_LOGO",
-                    "type": "bitmap"
-                },
-                {
                     "file": "images/ARRL_Logo_Round.png",
                     "name": "IMAGE_ARRL_LOGO_ROUND",
                     "type": "bitmap"
                 },
                 {
-                    "file": "fonts/HelveNeuLig.ttf",
-                    "name": "FONT_HELV_NEW_LIGHT_20",
+                    "file": "images/ARRL_Logo.png",
+                    "name": "IMAGE_ARRL_LOGO",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/ARRL_image_icon_Square.png",
+                    "menuIcon": true,
+                    "name": "IMAGE_MENU_ICON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "fonts/Roboto-Condensed.ttf",
+                    "name": "FONT_ROBOTO_CONDENSED_35",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/Roboto-Condensed.ttf",
+                    "name": "FONT_ROBOTO_CONDENSED_25",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/Roboto-Condensed.ttf",
+                    "name": "FONT_ROBOTO_CONDENSED_21",
+                    "targetPlatforms": null,
                     "type": "font"
                 },
                 {
                     "characterRegex": "[:0-9]",
                     "file": "fonts/Roboto-Bold.ttf",
-                    "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                    "name": "FONT_ROBOTO_BOLD_SUBSET_60",
+                    "targetPlatforms": null,
                     "type": "font"
                 },
                 {
                     "characterRegex": "[:0-9]",
                     "file": "fonts/Roboto-Bold.ttf",
                     "name": "FONT_ROBOTO_BOLD_SUBSET_40",
+                    "targetPlatforms": null,
                     "type": "font"
                 },
                 {
-                    "file": "fonts/Roboto-Condensed.ttf",
-                    "name": "FONT_ROBOTO_CONDENSED_29",
+                    "characterRegex": "[:0-9]",
+                    "file": "fonts/Roboto-Bold.ttf",
+                    "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                    "targetPlatforms": null,
                     "type": "font"
                 },
                 {
-                    "file": "fonts/Roboto-Condensed.ttf",
-                    "name": "FONT_ROBOTO_CONDENSED_25",
-                    "type": "font"
-                },
-                {
-                    "file": "fonts/Roboto-Condensed.ttf",
-                    "name": "FONT_ROBOTO_CONDENSED_21",
+                    "file": "fonts/HelveNeuLig.ttf",
+                    "name": "FONT_HELV_NEW_LIGHT_20",
                     "type": "font"
                 }
             ]
@@ -86,12 +98,13 @@
             "aplite",
             "basalt",
             "chalk",
-            "diorite"
+            "diorite",
+            "emery"
         ],
         "uuid": "6951421a-9386-4bae-8aa0-4695b597d4fe",
         "watchapp": {
             "watchface": true
         }
     },
-    "version": "7.2.0"
+    "version": "8.0.0"
 }

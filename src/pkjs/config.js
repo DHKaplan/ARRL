@@ -82,7 +82,7 @@ module.exports = [
             },
             {
                 "type": "text",
-                "defaultValue": "ARRL Logo By WA1OUI V7.2, Logo © ARRL"
+                "defaultValue": "ARRL Logo By WA1OUI V8.0, Logo © ARRL"
             }
         ]
     }
